@@ -1,0 +1,72 @@
+## SOBRE O PROJETO => Estudo de Caso Prático para um simulador de Pix - o CodePix
+1 - É uma solução para simular transferências de valores entre bancos fictícios através de chaves (e-mail, cpd, telefone).
+2 - Simular diversos bancos e contas bancárias que possuem uma chave Pix atribuída.
+3 - Cada conta bancária poderá cadastrar as suas chaves Pix.
+4 - Uma conta bancária poderá realizar uma transferência para outra conta em outro banco utilizando a chave Pix da conta de destino.
+
+## SOBRE OS REQUISITOS => Uma transação não pode ser perdida mesmo que: 
+1 - O CodePix esteja fora do ar.
+2 - O Banco de destino esteja fora do ar.
+
+## SOBRE A SOLUÇÃO 
+1 - O banco será um microsserviço com funções limitadas a cadastro de contas e chaves Pix, bem como transferência de valores.
+2 - Será utilizada a mesma aplicação para simular diversos bancos mudando apenas cores, nome e código. Ex: Banco BBX, Código 001, amarelo.
+3 - Será utilizado o Nest.JS como Backend.
+4 - Será utilizado o Next.JS como Frontend.
+
+## SOBRE O CODEPIX
+1 - O microsserviço CodePix será responsável por intermediar as transferências bancárias.
+2 - Receberá a transação de transferência.
+3 - Encaminhará a transação para o banco de destino (Status: "peding").
+4 - Receberá a confirmação do banco de destino (Status: "confirmed").
+5 - Enviará a conformação ao banco de origem informando quando o banco de destino processou.
+6 - Receberá a confirmação do banco de origem de que ele processou (Status: "completed").
+7 - Marcará a transação como completa (Status: "completed").
+
+## SOBRE O CADASTRO E CONSULTA DE CHAVE PIX
+1 - O banco solicita a criação da chave.
+2 - O CodePix envia a confirmação da criação da chave
+3 - O banco consulta se a chave existe.
+4 - O CodePix envia o resultado da consulta ao banco.
+5 - Cada banco tera as suas chaves.
+6 - O CodePix terá todas as chaves.
+
+## SOBRE OS DESAFIOS
+1 - Comunicação rápida e eficiente.
+2 - Criação e consulta instantâneas das chaves (Síncrona).
+3 - Garantia de que nenhuma transação seja perdida, mesmo que qualquer dos 3 sistemas esteja fora do ar (Assíncrona).
+4 - Utilizar o Framework gRPC para transacionar os dados em formato binário.
+5 - Utilizar o Apache Kafka para as transações assíncronas.
+6 - O CodePix será capaz de atuar como um servidor gRPC, consumir e publicar mensagens no Apache Kafka.
+7 - O CodePix deverá executar os dois serviços ( servidor gRPC e Apache Kafka) de forma simultânea.
+8 - Utilizar Domain Driven Design - DDD.
+9 - Deixar a complexidade técnica para a camada de aplicação, que ficará responsável pelo servidor gRPC e Apache Kafka.
+10 - Aplicação flexível para outros formatos de comunidação, como: API Rest, CLI clients, etc., sem alterar componentes ou modelo de domínio.
+
+## SOBRE A ARQUITETURA DE SOFTWARE
+1 - Arquitetura Hexagonal / Ports and Adapters
+
+## ESTRUTURA E COMANDOS DO CODEPIX
+> application
+    > factory = Instancia objetos com muitas dependências
+    > grpc = Servidor e serviços disponibilizados via gRPC
+    > kafka = Consumo e processamento de transações com o Apache Kafka
+    > model  = Estrutura dos objetos que receberão as requisições externas (via Kafka e gRPC)
+    > usecase = Executa o fluxo de operações de acordo com as regras de negócio
+> cmd = Comandos registrados para iniciarmos a aplicação e seus serviços (CLI)
+> domain / model = Coração da aplicação e suas regras de negócio
+> infrastructure
+    > db = Realiza configuração do ORM e a interface com o banco de dados 
+    > repository = Realiza a persistência dos dados. Normalmente são chamados pelos usecases
+
+## LINGUAGENS E RECURSOS UTILIZADOS
+1 - Docker
+2 - Golang
+3 - Apache Kafka
+4 - Postgres
+
+## COMANDOS IMPORTANTES
+ - docker-compose up -d
+ - docker exec -it nomeDoContainer bash
+ - go mod init github.com/fabiojdantas1/imersao/codepix
+ 

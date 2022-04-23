@@ -1,0 +1,7 @@
+.features.txt
+.vscode
+node_modules
+.pgdata
+.idea
+.env
+.DS_Store
